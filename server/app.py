@@ -78,11 +78,27 @@ class Logout(Resource):
         return {}, 204
 
 
+class CheckSession(Resource):
+
+    def get(self):
+
+        user_id = session.get('user_id')
+
+        if not user_id:
+
+            return {}, 401
+
+        user = User.query.get(user_id)
+
+        return user.to_dict(), 200
+
+
 api.add_resource(ClearSession, '/clear')
 api.add_resource(IndexArticle, '/articles')
 api.add_resource(ShowArticle, '/articles/<int:id>')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
+api.add_resource(CheckSession, '/check_session')
 
 
 if __name__ == '__main__':
